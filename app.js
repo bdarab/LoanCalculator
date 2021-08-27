@@ -1,12 +1,19 @@
 /* eslint-disable no-use-before-define */
 
 // Listen for submit
-document.getElementById('loan-form').addEventListener('submit', calculateResults)
+document.getElementById('loan-form').addEventListener('submit', (e) => {
+  // Hide results
+  document.getElementById('results').style.display = 'none'
+  // Show Loader
+  document.getElementById('loading').style.display = 'block'
+
+  setTimeout(calculateResults, 2000)
+  e.preventDefault()
+})
 
 
 // Calculate Result Function
-function calculateResults (e) {
-  console.log('calculating')
+function calculateResults () {
   // UI Variables
   const amount = document.getElementById('amount')
   const interest = document.getElementById('interest')
@@ -29,17 +36,19 @@ function calculateResults (e) {
     monthlyPayment.value = monthly.toFixed(2)
     totalPayment.value = (monthly * calculatedPayments).toFixed(2)
     totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2)
+    // hide loading
+    document.getElementById('loading').style.display = 'none'
+    // Unhide Results
+    document.getElementById('results').style.display = 'block'
   } else {
     showError('Please check your numbers!')
   }
-
-
-
-  e.preventDefault()
 }
 
 // Show error function
 function showError (error) {
+  // hide loading
+  document.getElementById('loading').style.display = 'none'
   // Create a div
   const errorDiv = document.createElement('div')
   // get Elements
